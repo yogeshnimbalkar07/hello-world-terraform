@@ -1,28 +1,34 @@
 
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "hello-world-terraform-state"
+  bucket = "asmigar-hello-world-terraform-state"
 
   # Prevent accidental deletion of this S3 bucket
   lifecycle {
     prevent_destroy = true
   }
+}
 
-  # Enable versioning so we can see the full revision history of our
-  # state files
-  versioning {
-    enabled = true
-  }
+resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" {
+  bucket = aws_s3_bucket.terraform_state.id
 
-  # Enable server-side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
     }
   }
 }
+
+# Enable versioning so we can see the full revision history of our state files
+resource "aws_s3_bucket_versioning" "terraform_state" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "hello-world-state-locks"
