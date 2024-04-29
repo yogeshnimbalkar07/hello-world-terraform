@@ -49,7 +49,7 @@ cd src; docker build -t <docker_ecr_repo_url>:<version> .
 ```
 3. Docker login into the ECR repo
 ```bash
-aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <ecr_repo_url>
+aws ecr get-login-password --region us-east-1 --profile asmigar | docker login --username AWS --password-stdin <ecr_repo_url>
 ```
 4. Publish docker image 
 ```bash
