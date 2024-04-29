@@ -144,12 +144,22 @@ resource "aws_ecs_service" "hello" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.hello[0].arn
   desired_count   = 2
-  launch_type     = "FARGATE"
 
   load_balancer {
     target_group_arn = aws_lb_target_group.hello_lb_tg.arn
     container_name   = jsondecode(aws_ecs_task_definition.hello[0].container_definitions)[0].name
     container_port   = 3000
+  }
+
+  capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.main.name
+    base              = 1
+    weight            = 100
+  }
+
+  ordered_placement_strategy {
+    type  = "spread"
+    field = "attribute:ecs.availability-zone"
   }
 
   network_configuration {
@@ -158,7 +168,6 @@ resource "aws_ecs_service" "hello" {
     // Restricting access to the instances can be done by SG itself.
     // No point in incurring charges for NAT (~ 3 INR/hr) /VPC Endpoint (~ 0.7 INR/hr)just for this assignment.
     subnets          = module.vpc.public_subnet_ids
-    assign_public_ip = true
     security_groups  = [aws_security_group.ecs_container.id]
   }
 }
