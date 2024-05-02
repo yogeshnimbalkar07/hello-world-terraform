@@ -13,6 +13,8 @@ resource "aws_ecr_repository" "hello_world" {
   image_scanning_configuration {
     scan_on_push = true
   }
+
+  force_delete = true
 }
 
 resource "aws_security_group" "allow_http_lb" {
@@ -128,10 +130,6 @@ resource "aws_ecs_task_definition" "hello" {
       ]
     }
   ])
-
-  requires_compatibilities = [
-    "FARGATE"
-  ]
 
   network_mode = "awsvpc"
   cpu          = "256"
