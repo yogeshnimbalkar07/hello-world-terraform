@@ -43,7 +43,7 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 }
 
 resource "aws_launch_template" "ecs_ec2" {
-  name_prefix            = "demo-ecs-ec2-"
+  name_prefix            = "1demo-ecs-ec2-"
   image_id               = data.aws_ssm_parameter.ecs_node_ami.value
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.ecs_node_sg.id]
@@ -86,7 +86,7 @@ resource "aws_autoscaling_group" "ecs" {
 }
 
 resource "aws_ecs_capacity_provider" "main" {
-  name = "demo-ecs-ec2"
+  name = "1demo-ecs-ec2"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.ecs.arn
