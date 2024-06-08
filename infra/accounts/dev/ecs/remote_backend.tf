@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
     key            = "dev/ecs/terraform.tfstate"
-    region         = "us-east-1"
+    region         = "ap-south-1"
     dynamodb_table = "hello-world-state-locks"
     encrypt        = true
-    profile        = "asmigar"
+    profile        = "yogiuser"
   }
 }
