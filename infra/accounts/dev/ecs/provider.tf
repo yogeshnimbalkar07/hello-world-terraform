@@ -1,6 +1,6 @@
 provider "aws" {
-  region  = "us-east-1"
-  profile = "asmigar"
+  region  = "ap-south-1"
+  profile = "yogiuser"
   default_tags {
     tags = {
       Organisation = "Self"
