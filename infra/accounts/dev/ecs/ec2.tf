@@ -86,7 +86,7 @@ resource "aws_autoscaling_group" "ecs" {
 }
 
 resource "aws_ecs_capacity_provider" "main" {
-  name = "demo-ecs-ec2"
+  name = "demo1-ecs-ec2"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.ecs.arn
